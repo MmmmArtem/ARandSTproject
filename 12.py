@@ -214,3 +214,16 @@ class Shar(pygame.sprite.Sprite):
                     if kirp.kontakt == game_level:
                         self.razbit_kirp += game_level
                         kirp.kill()
+
+
+running = False
+if running == False:
+    start_screen()
+if running:
+    shar_1 = Shar()
+    platform_1 = Platform()
+vin_image = load_image('Vin.png')
+background_image = load_image('Fon.jpg')
+lose_image = load_image('lose.png')
+pygame.mixer.music.load('123.mp3')
+pygame.mixer.music.play()
