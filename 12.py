@@ -227,3 +227,54 @@ background_image = load_image('Fon.jpg')
 lose_image = load_image('lose.png')
 pygame.mixer.music.load('123.mp3')
 pygame.mixer.music.play()
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                game_pausa = not game_pausa
+                if game_pausa:
+                    shar_1.vx = 0
+                    shar_1.vy = 0
+                else:
+                    game_start = time.time()
+                    shar_1.vx = game_speed_x0 * game_speed
+                    shar_1.vy = game_speed_y0 * game_speed
+            if event.key == pygame.K_UP:
+                pygame.mixer.music.unpause()
+                pygame.mixer.music.set_volume(10)
+            if event.key == pygame.K_DOWN:
+                pygame.mixer.music.unpause()
+                pygame.mixer.music.set_volume(0.3)
+            if event.key == pygame.K_g:
+                god_mode = not god_mode
+            if event.key == pygame.K_1 or event.key == pygame.K_KP1:
+                game_speed = 1
+                shar_1.vx = game_speed_x0 * game_speed
+                shar_1.vy = game_speed_y0 * game_speed
+            if event.key == pygame.K_2 or event.key == pygame.K_KP2:
+                game_speed = 2
+                shar_1.vx = game_speed_x0 * game_speed
+                shar_1.vy = game_speed_y0 * game_speed
+            if event.key == pygame.K_3 or event.key == pygame.K_KP3:
+                game_speed = 3
+                shar_1.vx = game_speed_x0 * game_speed
+                shar_1.vy = game_speed_y0 * game_speed
+            if event.key == pygame.K_4 or event.key == pygame.K_KP4:
+                game_speed = 4
+                shar_1.vx = game_speed_x0 * game_speed
+                shar_1.vy = game_speed_y0 * game_speed
+            if event.key == pygame.K_5 or event.key == pygame.K_KP5:
+                game_speed = 5
+                shar_1.vx = game_speed_x0 * game_speed
+                shar_1.vy = game_speed_y0 * game_speed
+    screen.blit(background_image, (0, 0))
+    f1 = pygame.font.Font(None, 30)
+    text1 = f1.render('{}'.format('время игры: ' + str(int(game_time / 60))
+                                  + ':' + str(int(game_time % 60))), 1, (255, 100, 0))
+    text2 = f1.render('{}'.format('Счёт: ' + str(shar_1.razbit_kirp * 50)), 1, (255, 100, 0))
+    text3 = f1.render('{}'.format(str(game_live) + 'x'), 1, (255, 100, 0))
+    screen.blit(text1, (0, 500))
+    screen.blit(text2, (0, 540))
+    screen.blit(text3, (790, 570))
