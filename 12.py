@@ -278,3 +278,100 @@ while running:
     screen.blit(text1, (0, 500))
     screen.blit(text2, (0, 540))
     screen.blit(text3, (790, 570))
+    if game_live <= 2 and game_time <= 3:
+        game_live += 1
+    if game_level == 1:
+        if shar_1.razbit_kirp == 16:
+            game_level += 1
+            next_level = True
+    if game_level == 2:
+        if shar_1.razbit_kirp == 64:
+            game_level += 1
+            next_level = True
+    if game_level == 3:
+        if shar_1.razbit_kirp == 160:
+            game_level += 1
+            next_level = True
+    if game_level == 4:
+        Vin = True
+    if next_live or next_level:
+        kx = 2
+        ky = 2
+        if game_level == 1:
+            if next_level:
+                for k in kirpichs:
+                    k.kill()
+                for i in range(16):
+                    Kirpichi()
+                    kx += 105
+                    if kx > 800:
+                        kx = 2
+                        ky += 45
+                next_level = False
+                game_live = 3
+                game_speed = 1
+            shar_1.reset()
+            platform_1.rect.y = 550
+            platform_1.rect.x = (width - platform_1.rect.width) // 2
+            next_live = False
+        elif game_level == 2:
+            if next_level:
+                for k in kirpichs:
+                    k.kill()
+                for i in range(24):
+                    Kirpichi()
+                    kx += 105
+                    if kx > 800:
+                        kx = 2
+                        ky += 45
+                next_level = False
+                game_live += 1
+                game_speed = 2
+            shar_1.reset()
+            platform_1.rect.y = 525
+            platform_1.rect.x = (width - platform_1.rect.width) // 2
+            next_live = False
+        elif game_level == 3:
+            if next_level:
+                for k in kirpichs:
+                    k.kill()
+                for i in range(32):
+                    Kirpichi()
+                    kx += 105
+                    if kx > 800:
+                        kx = 2
+                        ky += 45
+                next_level = False
+                game_live += 1
+                game_speed = 3
+            shar_1.reset()
+            platform_1.rect.y = 500
+            platform_1.rect.x = (width - platform_1.rect.width) // 2
+            next_live = False
+
+    all_sprites.update(clock_dt)
+    all_sprites.draw(screen)
+    if Vin:
+        screen.blit(vin_image, (0, 0))
+        f1 = pygame.font.Font(None, 30)
+        text1 = f1.render('{}'.format('время игры: ' + str(int(game_time / 60))
+                                      + ':' + str(int(game_time % 60))), 1, (0, 180, 0))
+        text2 = f1.render('{}'.format('Счёт: ' + str(shar_1.razbit_kirp * 50)), 1, (0, 180, 0))
+        screen.blit(text1, (500, 340))
+        screen.blit(text2, (500, 380))
+    if lose:
+        screen.blit(lose_image, (0, 0))
+        f1 = pygame.font.Font(None, 30)
+        text1 = f1.render('{}'.format('время игры: ' + str(int(game_time / 60))
+                                      + ':' + str(int(game_time % 60))), 1, (180, 0, 0))
+        text2 = f1.render('{}'.format('Счёт: ' + str(shar_1.razbit_kirp * 50)), 1, (180, 0, 0))
+        screen.blit(text1, (340, 400))
+        screen.blit(text2, (340, 440))
+    pygame.display.flip()
+    clock_dt = clock.tick(fps)
+    if not game_pausa and not lose and not Vin:
+        tt = time.time()
+        game_time += tt - game_start
+        game_start = tt
+        screen.blit(lose_image, (0, 0))
+pygame.quit()
