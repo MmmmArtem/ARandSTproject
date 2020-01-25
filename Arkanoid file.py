@@ -55,3 +55,22 @@ def start_screen():
             if event.type == pygame.QUIT:
                 a = False
         pygame.display.flip()
+
+
+def sboku(plat_r, shar_r, ydir):
+    st = ''
+    dx1 = shar_r.x + shar_r.width - plat_r.x
+    dx2 = plat_r.x + plat_r.width - shar_r.x
+    if ydir == 1:
+        dy1 = (shar_r.y + shar_r.height) - plat_r.y
+        if 0 < dx1 < dy1:
+            st = 'left'
+        if 0 < dx2 < dy1:
+            st = 'right'
+    else:
+        dy2 = (plat_r.y + plat_r.height) - shar_r.y
+        if 0 < dx1 < dy2:
+            st = 'left'
+        if 0 < dx2 < dy2:
+            st = 'right'
+    return st
