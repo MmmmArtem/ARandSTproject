@@ -214,3 +214,186 @@ class Shar(pygame.sprite.Sprite):
                     if kirp.kontakt == game_level:
                         self.razbit_kirp += game_level
                         kirp.kill()
+
+
+class Kirpichi(pygame.sprite.Sprite):
+    image = load_image("kirpich.png")
+    image1 = load_image("kirpich1.jpg")
+    image2 = load_image("kirpich2.jpg")
+
+    def __init__(self):
+        super().__init__(kirpichs, all_sprites)
+        if game_level == 1:
+            self.image = Kirpichi.image
+        if game_level == 2:
+            self.image = Kirpichi.image1
+        if game_level == 3:
+            self.image = Kirpichi.image2
+        self.rect = self.image.get_rect()
+        self.rect.x = kx
+        self.rect.y = ky
+        self.kontakt = 0
+
+
+running = False
+if running == False:
+    start_screen()
+if running:
+    shar_1 = Shar()
+    platform_1 = Platform()
+vin_image = load_image('Vin.png')
+background_image = load_image('Fon.jpg')
+lose_image = load_image('lose.png')
+pygame.mixer.music.load('123.mp3')
+pygame.mixer.music.play()
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                game_pausa = not game_pausa
+                if game_pausa:
+                    shar_1.vx = 0
+                    shar_1.vy = 0
+                else:
+                    game_start = time.time()
+                    shar_1.vx = game_speed_x0 * game_speed
+                    shar_1.vy = game_speed_y0 * game_speed
+            if event.key == pygame.K_UP:
+                pygame.mixer.music.unpause()
+                pygame.mixer.music.set_volume(10)
+            if event.key == pygame.K_DOWN:
+                pygame.mixer.music.unpause()
+                pygame.mixer.music.set_volume(0.3)
+            if event.key == pygame.K_g:
+                god_mode = not god_mode
+            if event.key == pygame.K_1 or event.key == pygame.K_KP1:
+                game_speed = 1
+                shar_1.vx = game_speed_x0 * game_speed
+                shar_1.vy = game_speed_y0 * game_speed
+            if event.key == pygame.K_2 or event.key == pygame.K_KP2:
+                game_speed = 2
+                shar_1.vx = game_speed_x0 * game_speed
+                shar_1.vy = game_speed_y0 * game_speed
+            if event.key == pygame.K_3 or event.key == pygame.K_KP3:
+                game_speed = 3
+                shar_1.vx = game_speed_x0 * game_speed
+                shar_1.vy = game_speed_y0 * game_speed
+            if event.key == pygame.K_4 or event.key == pygame.K_KP4:
+                game_speed = 4
+                shar_1.vx = game_speed_x0 * game_speed
+                shar_1.vy = game_speed_y0 * game_speed
+            if event.key == pygame.K_5 or event.key == pygame.K_KP5:
+                game_speed = 5
+                shar_1.vx = game_speed_x0 * game_speed
+                shar_1.vy = game_speed_y0 * game_speed
+    screen.blit(background_image, (0, 0))
+    f1 = pygame.font.Font(None, 30)
+    text1 = f1.render('{}'.format('время игры: ' + str(int(game_time / 60))
+                                  + ':' + str(int(game_time % 60))), 1, (255, 100, 0))
+    text2 = f1.render('{}'.format('Счёт: ' + str(shar_1.razbit_kirp * 50)), 1, (255, 100, 0))
+    text3 = f1.render('{}'.format(str(game_live) + 'x'), 1, (255, 100, 0))
+    screen.blit(text1, (0, 500))
+    screen.blit(text2, (0, 540))
+    screen.blit(text3, (790, 570))
+    if god_mode:
+        text4 = f1.render('God-mode', 1, (255, 100, 0))
+        screen.blit(text4, (0, 580))
+    if game_live <= 2 and game_time <= 3:
+        game_live += 1
+    if game_level == 1:
+        if shar_1.razbit_kirp == 16:
+            game_level += 1
+            next_level = True
+    if game_level == 2:
+        if shar_1.razbit_kirp == 64:
+            game_level += 1
+            next_level = True
+    if game_level == 3:
+        if shar_1.razbit_kirp == 160:
+            game_level += 1
+            next_level = True
+    if game_level == 4:
+        Vin = True
+    if next_live or next_level:
+        kx = 2
+        ky = 2
+        if game_level == 1:
+            if next_level:
+                for k in kirpichs:
+                    k.kill()
+                for i in range(16):
+                    Kirpichi()
+                    kx += 105
+                    if kx > 800:
+                        kx = 2
+                        ky += 45
+                next_level = False
+                game_live = 3
+                game_speed = 1
+            shar_1.reset()
+            platform_1.rect.y = 550
+            platform_1.rect.x = (width - platform_1.rect.width) // 2
+            next_live = False
+        elif game_level == 2:
+            if next_level:
+                for k in kirpichs:
+                    k.kill()
+                for i in range(24):
+                    Kirpichi()
+                    kx += 105
+                    if kx > 800:
+                        kx = 2
+                        ky += 45
+                next_level = False
+                game_live += 1
+                game_speed = 2
+            shar_1.reset()
+            platform_1.rect.y = 525
+            platform_1.rect.x = (width - platform_1.rect.width) // 2
+            next_live = False
+        elif game_level == 3:
+            if next_level:
+                for k in kirpichs:
+                    k.kill()
+                for i in range(32):
+                    Kirpichi()
+                    kx += 105
+                    if kx > 800:
+                        kx = 2
+                        ky += 45
+                next_level = False
+                game_live += 1
+                game_speed = 3
+            shar_1.reset()
+            platform_1.rect.y = 500
+            platform_1.rect.x = (width - platform_1.rect.width) // 2
+            next_live = False
+
+    all_sprites.update(clock_dt)
+    all_sprites.draw(screen)
+    if Vin:
+        screen.blit(vin_image, (0, 0))
+        f1 = pygame.font.Font(None, 30)
+        text1 = f1.render('{}'.format('время игры: ' + str(int(game_time / 60))
+                                      + ':' + str(int(game_time % 60))), 1, (0, 180, 0))
+        text2 = f1.render('{}'.format('Счёт: ' + str(shar_1.razbit_kirp * 50)), 1, (0, 180, 0))
+        screen.blit(text1, (500, 340))
+        screen.blit(text2, (500, 380))
+    if lose:
+        screen.blit(lose_image, (0, 0))
+        f1 = pygame.font.Font(None, 30)
+        text1 = f1.render('{}'.format('время игры: ' + str(int(game_time / 60))
+                                      + ':' + str(int(game_time % 60))), 1, (180, 0, 0))
+        text2 = f1.render('{}'.format('Счёт: ' + str(shar_1.razbit_kirp * 50)), 1, (180, 0, 0))
+        screen.blit(text1, (340, 400))
+        screen.blit(text2, (340, 440))
+    pygame.display.flip()
+    clock_dt = clock.tick(fps)
+    if not game_pausa and not lose and not Vin:
+        tt = time.time()
+        game_time += tt - game_start
+        game_start = tt
+        screen.blit(lose_image, (0, 0))
+pygame.quit()
