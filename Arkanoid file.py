@@ -74,3 +74,43 @@ def sboku(plat_r, shar_r, ydir):
         if 0 < dx2 < dy2:
             st = 'right'
     return st
+
+
+class Platform(pygame.sprite.Sprite):
+    image = load_image('platform.png')
+
+    def __init__(self):
+        super().__init__(platforms, all_sprites)
+        self.image = Platform.image
+        self.rect = self.image.get_rect()
+        self.rect.y = 550
+        self.rect.x = (width - self.rect.width) // 2
+        self.dx = 0
+        self.vx = 1000 / 1000  # 1000 пикселей в секунду
+        self.moveleft = False
+        self.moverght = False
+
+    def update(self, dt):
+        if not game_pausa:
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_LEFT]:
+                self.moveleft = self.rect.x > 0
+                self.dx -= self.vx * dt
+                int_dx = int(self.dx)
+                if int_dx < 0:
+                    self.rect.x += int_dx
+                    self.rect.x = max(0, self.rect.x)
+                    self.dx = self.dx - int_dx
+            else:
+                self.moveleft = False
+            if keys[pygame.K_RIGHT]:
+                self.moverght = self.rect.x < width - self.rect.width
+                self.dx += self.vx * dt
+                int_dx = int(self.dx)
+                if int_dx > 0:
+                    self.rect.x += int_dx
+                    self.rect.x = min(width - self.rect.width, self.rect.x)
+                    self.dx = self.dx - int_dx
+            else:
+                self.moverght = False
+
