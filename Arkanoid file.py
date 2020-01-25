@@ -36,3 +36,22 @@ def load_image(name, colorkey=None):
         else:
             image = image.convert_alpha()
     return image
+
+
+def start_screen():
+    global running, game_level, next_level
+    fon = pygame.transform.scale(load_image('start_screen.png'), (840, 600))
+    screen.blit(fon, (0, 0))
+    pygame.mixer.music.load('1234.mp3')
+    pygame.mixer.music.play(-1)
+    a = True
+    while a:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN or event.type == pygame.MOUSEBUTTONDOWN:
+                running = True
+                game_level += 1
+                next_level = True
+                return  # начинаем игру
+            if event.type == pygame.QUIT:
+                a = False
+        pygame.display.flip()
